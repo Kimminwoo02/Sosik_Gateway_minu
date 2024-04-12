@@ -1,14 +1,18 @@
 server:
   port: 5056
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics,env"
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
-    instance:
-      lease-expiration-duration-in-seconds: 2
-      lease-renewal-interval-in-seconds: 1
+
 spring:
   application:
     name: gateway-service
@@ -24,7 +28,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: 'http://localhost:3000'
+            allowedOrigins: 'http://www.localhost:3000, http://localhost:3000, http://so-sik.com:3000, http://so-sik.com:3000, https://43.200.224.252:3000, http://so-sik.com, http://127.0.0.1:3000'
             allow-credentials: true
             allowedHeaders: '*'
             allowedMethods:
@@ -73,8 +77,8 @@ spring:
         - id: community-service
           uri: lb://community-service
           predicates:
-            - Path= /comment/v1, /comment/v1/{commentId}, /post/v1/{postId}, /post/v1
-            - Method= POST, PATCH, DELETE, OPTIONS
+            - Path= /comment/v1, /comment/v1/{commentId}, /post/v1, /post/v1/{postId}
+            - Method= POST, PATCH, DELETE, OPTIONS, GET
           filters:
             - name: AuthorizationHeaderFilter
               args:
